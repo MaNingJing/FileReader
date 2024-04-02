@@ -1,37 +1,37 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+    public class Main {
+    public static void main(String[] args) throws IOException {
+    String filePath = "C:\\Users\\mnj\\Desktop\\Groceries.txt";
+    String fileToWrite ="C:\\Users\\mnj\\Desktop\\mnj.txt";
 
-public class Main {
-    public static void main(String[] args) {
-        String fileName = "C:\\Users\\mnj\\Desktop\\Groceries.txt";
-        double totalPrice = 0.0;
+    String [] array = new String[4];
+    String id;
+    String itemName;
+    String quantity;
+    double price;
+    String separator =",";
+    double total =0;
+    FileReader fileReader = new FileReader(filePath);
+    FileWriter fileWriter = new FileWriter(filePath); 
 
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String line;
+    BufferedReader reader = new BufferedReader(fileReader);
+    BufferedWriter writer = new BufferedWriter(fileWriter);
 
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                
-                // Ensure that the line has all four elements
-                if (parts.length == 4) {
-                    String id = parts[0].trim();
-                    String itemName = parts[1].trim();
-                    String quantity = parts[2].trim();
-                    double price = Double.parseDouble(parts[3].trim());
+    String line;
+    while((line = reader.readLine())!= null){
+    array = line.split(separator);
+    price = Double.parseDouble(array[3]);
+    total += price;
+    System.out.println(line);
+    writer.write(line);
+    writer.newLine();
+}
+    System.out.println("\n"+ "Total price of groceries: " + Math.round(total));
+    writer.write("\n"+"Total price of groceries" + Math.round(total));
 
-                    System.out.println("ID: " + id);
-                    System.out.println("Item Name: " + itemName);
-                    System.out.println("Quantity: " + quantity);
-                    System.out.println("Price: " + price);
 
-                    totalPrice += Double.parseDouble(quantity) * price;
-                }
-            }
-
-            System.out.println("Total Price: " + totalPrice);
-        } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
-        }
-    }
+    reader.close();
+    writer.flush();
+    writer.close();
+}
 }
